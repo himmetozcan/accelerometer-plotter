@@ -1,5 +1,8 @@
 # Real-Time Accelerometer Data Viewer
 
+<img width="1243" alt="image" src="https://github.com/user-attachments/assets/60447bef-b1b0-4bbf-b20d-e7c1b9380879" />
+
+
 This application provides a web-based interface to visualize real-time accelerometer data.
 It uses Python with Dash, Plotly, and Flask.
 
