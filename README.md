@@ -8,9 +8,19 @@ It uses Python with Dash, Plotly, and Flask.
 
 ## Prerequisites
 
-Before you begin, ensure you have Python 3 installed on your system and that it's added to your system's PATH. Pip (Python package installer) should also be available.
+1. Install "Sensor Logger" app to your mobile.
+   ![image](https://github.com/user-attachments/assets/a2688f1a-c40f-4832-9aba-699b422d1f30)
 
-- **Python 3**: Download from [python.org](https://www.python.org/downloads/)
+2. Turn on Accelerometer and Open Settings
+   ![image](https://github.com/user-attachments/assets/5736bd86-a009-4a2d-af7f-afe3fd089cf9)
+
+3. Open Data Streaming
+   ![image](https://github.com/user-attachments/assets/59f0c181-f4bc-4a5f-be94-1cc951d3f313)
+
+4. Enable Http push and edit url. For example "http://192.168.0.80/sensor". 
+   ![image](https://github.com/user-attachments/assets/a2381b2c-4433-49b4-a162-d3027a4d296f)
+
+5. In your pc, ensure you have Python 3.13 installed on your system and that it's added to your system's PATH. Pip (Python package installer) should also be available. ([python 3.13](https://www.python.org/downloads/release/python-3130/))
   - During installation on Windows, make sure to check the box "Add Python to PATH".
 
 ## Setup and Run
@@ -41,7 +51,7 @@ Once the application is running, it will print messages in the terminal/command 
 
 ## Sending Data
 
-The application expects accelerometer data to be sent via HTTP POST requests to the `/sensor` endpoint (e.g., `http://YOUR_LOCAL_IP:8080/sensor`).
+The application expects accelerometer data to be sent via HTTP POST requests to the `/sensor` endpoint (e.g., `http://YOUR_LOCAL_IP:8080/sensor`). Go to Step 4 above and make sure you enter the same local ip you see on the web UI.
 The expected JSON format for the payload is a list of data points:
 
 ```json
