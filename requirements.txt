@@ -1,0 +1,7 @@
+dash
+plotly
+numpy
+scipy
+pyzmq
+Flask
+zmq # Already in use by your dash_app.py for potential ZMQ input 

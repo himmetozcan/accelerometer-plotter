@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>İvmeölçer Verileri</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .status-row { display: flex; justify-content: space-around; margin-bottom: 20px; }
+        .status-container { text-align: center; padding: 10px; border-radius: 5px; background-color: #f8f9fa; min-width: 200px; }
+        .status-indicator { font-size: 1.2em; font-weight: bold; }
+        h1 { text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerçek Zamanlı İvmeölçer Verisi</h1>
+        
+        <div class="status-row">
+            <div class="status-container">
+                <h4>Bağlantı Durumu:</h4>
+                <div id="connection-status" class="status-indicator">Kontrol ediliyor...</div>
+            </div>
+            <div class="status-container">
+                <h4>Alınan Veri:</h4>
+                <div id="data-count" class="status-indicator">0 nokta</div>
+            </div>
+            <div class="status-container">
+                <h4>Son Güncelleme:</h4>
+                <div id="last-update" class="status-indicator">Henüz veri yok</div>
+            </div>
+        </div>
+        
+        <div id="chart" style="height: 70vh;"></div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="reset-button">Sıfırla</button>
+        </div>
+    </div>
+    
+    <script>
+        // Grafik oluştur
+        let chart = document.getElementById('chart');
+        
+        function updateGraph() {
+            fetch('/graph')
+                .then(response => response.json())
+                .then(fig => {
+                    Plotly.react(chart, fig.data, fig.layout);
+                });
+        }
+        
+        function updateStatus() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    // Bağlantı durumu
+                    if (data.is_receiving) {
+                        document.getElementById('connection-status').innerHTML = 'Bağlı';
+                        document.getElementById('connection-status').style.color = 'green';
+                    } else {
+                        document.getElementById('connection-status').innerHTML = 'Bağlantı Yok';
+                        document.getElementById('connection-status').style.color = 'red';
+                    }
+                    
+                    // Veri sayısı
+                    document.getElementById('data-count').innerHTML = data.total_points + ' nokta';
+                    
+                    // Son güncelleme
+                    if (data.last_update > 0) {
+                        const secondsAgo = Math.floor(Date.now()/1000 - data.last_update);
+                        if (secondsAgo < 60) {
+                            document.getElementById('last-update').innerHTML = secondsAgo + ' saniye önce';
+                        } else {
+                            document.getElementById('last-update').innerHTML = Math.floor(secondsAgo/60) + ' dakika önce';
+                        }
+                    } else {
+                        document.getElementById('last-update').innerHTML = 'Henüz veri yok';
+                    }
+                });
+        }
+        
+        // Sıfırlama butonu
+        document.getElementById('reset-button').addEventListener('click', function() {
+            if (confirm('Veri grafiğini sıfırlamak istediğinize emin misiniz?')) {
+                // Sunucuya sıfırlama isteği gönder
+                // Bu örnekte sadece grafiği yeniden çiziyoruz
+                updateGraph();
+            }
+        });
+        
+        // Düzenli aralıklarla güncelle
+        setInterval(updateGraph, 100);  // Grafiği 100ms'de bir güncelle
+        setInterval(updateStatus, 500); // Durumu 500ms'de bir güncelle
+        
+        // İlk çağrıları yap
+        updateGraph();
+        updateStatus();
+    </script>
+</body>
+</html>
