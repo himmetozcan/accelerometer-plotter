@@ -78,4 +78,8 @@ The expected JSON format for the payload is a list of data points:
 - `setup_and_run.sh`: Setup and run script for macOS/Linux.
 - `setup_and_run.bat`: Setup and run script for Windows.
 - `README.md`: This file.
-- `data/`: Directory where recorded CSV files will be saved (created automatically). 
+- `data/`: Directory where recorded CSV files will be saved (created automatically).
+
+## Note
+
+Make sure you use firefox if you are in windows, because other browsers limit the cpu and memory usage for a single tab and it causes problems.
